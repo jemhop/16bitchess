@@ -43,6 +43,7 @@ func main() {
 	game.colours = *graphics.NewColours()
 	game.board = *chess.NewBoard(100, game.colours)
 
+	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeDisabled)
 	ebiten.SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)
 	ebiten.SetWindowTitle("Chess")
 
