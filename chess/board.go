@@ -2,7 +2,6 @@ package chess
 
 import (
 	"16bchess/graphics"
-	"fmt"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -24,7 +23,7 @@ type Board struct {
 }
 
 type Square struct {
-	piece       Piece
+	Piece       Piece
 	col         color.Color
 	attacked_by []int
 }
@@ -83,7 +82,6 @@ func (board Board) Render(screen *ebiten.Image, position graphics.Position, shee
 	screen.DrawImage(boardImage, &ebiten.DrawImageOptions{GeoM: translation})
 }
 
-// a bunch of placeholder code for drawing pieces before sprites are implemented
 func (board Board) renderSquare(screen *ebiten.Image, position graphics.Position, square Square, sheets graphics.SpritesheetManager) {
 	squareSize := board.Size / len(board.Squares)
 	squareImage := ebiten.NewImage(squareSize, squareSize)
@@ -92,20 +90,28 @@ func (board Board) renderSquare(screen *ebiten.Image, position graphics.Position
 	translation := ebiten.GeoM{}
 	translation.Translate(float64(position.X), float64(position.Y))
 
-	renderPiece(squareImage, sheets, squareSize)
+	if square.Piece.Piecetype != 0 {
+		renderPiece(squareImage, sheets, squareSize, square)
+	}
 
 	screen.DrawImage(squareImage, &ebiten.DrawImageOptions{GeoM: translation})
 }
 
-func renderPiece(squareImage *ebiten.Image, sheets graphics.SpritesheetManager, squareSize int) {
-	pieceImage := sheets.Sheets["blackpieces"].Sprites[0]
+func renderPiece(squareImage *ebiten.Image, sheets graphics.SpritesheetManager, squareSize int, square Square) {
+
+	pieceImage := ebiten.Image{}
+
+	if square.Piece.side == BLACK {
+		pieceImage = sheets.Sheets["blackpieces"].Sprites[square.Piece.Piecetype-1]
+	} else {
+		pieceImage = sheets.Sheets["whitepieces"].Sprites[square.Piece.Piecetype-1]
+	}
 
 	pieceTranslation := ebiten.GeoM{}
 
 	xScale := (float64(squareSize) / float64(pieceImage.Bounds().Max.X))
 	yScale := (float64(squareSize) / float64(pieceImage.Bounds().Max.Y))
 
-	fmt.Println(xScale, yScale)
 	pieceTranslation.Scale(xScale, yScale)
 
 	squareImage.DrawImage(&pieceImage, &ebiten.DrawImageOptions{GeoM: pieceTranslation})

@@ -32,9 +32,9 @@ func applyFenString(fen string, board *Board) {
 			} else {
 				pieceType, side := runeToPiece(r)
 
-				piece := Piece{piecetype: pieceType, side: side}
+				piece := Piece{Piecetype: pieceType, side: side}
 
-				board.Squares[file][rank].piece = piece
+				board.Squares[file][rank].Piece = piece
 
 				file++
 			}
@@ -48,9 +48,9 @@ func applyFenString(fen string, board *Board) {
 }
 
 func runeToPiece(r rune) (piece int, side int) {
-	r = unicode.ToLower(r)
+	lowercase := unicode.ToLower(r)
 
-	switch r {
+	switch lowercase {
 	case 'p':
 		piece = PAWN
 	case 'n':

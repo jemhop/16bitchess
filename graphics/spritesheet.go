@@ -2,7 +2,6 @@ package graphics
 
 import (
 	"encoding/json"
-	"fmt"
 	"image"
 	"image/png"
 	"log"
@@ -63,8 +62,6 @@ func loadSpriteSheet(path string, width int, height int) Spritesheet {
 	spriteSheetImage := openImage(path)
 
 	sliced := sliceImage1D(spriteSheetImage, width)
-
-	fmt.Println(len(sliced))
 
 	for _, s := range sliced {
 		spriteSheet.Sprites = append(spriteSheet.Sprites, *ebiten.NewImageFromImage(s))
