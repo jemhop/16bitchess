@@ -1,7 +1,5 @@
 package chess
 
-import "16bchess/graphics"
-
 const (
 	NONE = iota
 	PAWN
@@ -18,7 +16,6 @@ const (
 )
 
 type Piece struct {
-	sprite    graphics.Sprite
-	team      int
+	side      int
 	piecetype int
 }
