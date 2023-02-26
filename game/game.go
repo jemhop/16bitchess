@@ -46,7 +46,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 func StartGame() {
 	game := Game{}
 	game.colours = *graphics.NewColours()
-	game.board = *chess.NewBoard(160, game.colours)
+	game.board = *chess.NewBoard((16+4)*8, game.colours)
 	game.spritesheetManager = graphics.SpritesheetManager{}
 
 	game.spritesheetManager.LoadSpriteSheets(spritesheets[:])

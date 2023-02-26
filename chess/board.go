@@ -7,6 +7,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+//This file holds the Board datatype
+
 // need to implement move history etc
 type Board struct {
 	Squares  [8][8]Square
@@ -91,30 +93,10 @@ func (board Board) renderSquare(screen *ebiten.Image, position graphics.Position
 	translation.Translate(float64(position.X), float64(position.Y))
 
 	if square.Piece.Piecetype != 0 {
-		renderPiece(squareImage, sheets, squareSize, square)
+		square.Piece.Render(squareImage, sheets, squareSize, square)
 	}
 
 	screen.DrawImage(squareImage, &ebiten.DrawImageOptions{GeoM: translation})
-}
-
-func renderPiece(squareImage *ebiten.Image, sheets graphics.SpritesheetManager, squareSize int, square Square) {
-
-	pieceImage := ebiten.Image{}
-
-	if square.Piece.side == BLACK {
-		pieceImage = sheets.Sheets["blackpieces"].Sprites[square.Piece.Piecetype-1]
-	} else {
-		pieceImage = sheets.Sheets["whitepieces"].Sprites[square.Piece.Piecetype-1]
-	}
-
-	pieceTranslation := ebiten.GeoM{}
-
-	xScale := (float64(squareSize) / float64(pieceImage.Bounds().Max.X))
-	yScale := (float64(squareSize) / float64(pieceImage.Bounds().Max.Y))
-
-	pieceTranslation.Scale(xScale, yScale)
-
-	squareImage.DrawImage(&pieceImage, &ebiten.DrawImageOptions{GeoM: pieceTranslation})
 }
 
 // Function to determine the colour of a square based on the x and y value. Returns true for white and false for black
